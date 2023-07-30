@@ -163,7 +163,8 @@ def register():
     if not(username or password or confirmation or confirmation == password or not has_repeat):
         return apology("Sorry, invalid username or passwords do not match")
 
-    db.execute("INSERT INTO users (id, username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+    db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+    session["user_id"] = db.execute("SELECT id FROM users WHERE username = ?", username)
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
