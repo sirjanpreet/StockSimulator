@@ -127,7 +127,7 @@ def register():
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
         return render_template("register.html")
 
-    return render_template("apology")
+    return render_template("apology.html")
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
