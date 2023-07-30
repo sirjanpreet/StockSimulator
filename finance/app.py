@@ -115,7 +115,7 @@ def register():
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
     has_repeat = False
-    usernames = db.execute("SELECT username FROM users WHERE username = ?", username)
+    usernames = db.execute("SELECT username FROM users")
 
     #checks for repeated usernames
     for dict in usernames:
@@ -127,7 +127,7 @@ def register():
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
         return render_template("register.html")
 
-    return render_template("register.html")
+    return render_template("apology.html")
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
