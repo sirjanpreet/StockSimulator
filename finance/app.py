@@ -130,9 +130,10 @@ def register():
             if dict[key] == username:
                 has_repeat = True
 
-    if username and password and confirmation and confirmation == password and not has_repeat:
-        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
-        return render_template("login.html")
+    if not(username and password and confirmation and confirmation == password and not has_repeat):
+        return render_template("apology.html")
+    
+    db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
 
     return render_template("apology.html")
 
