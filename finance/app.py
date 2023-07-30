@@ -43,6 +43,8 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
+    symbol = request.form.get("symbol")
+    shares = request.form.get("shares")
     return apology("TODO")
 
 
