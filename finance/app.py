@@ -57,7 +57,8 @@ def buy():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
-    
+
+    db.execute("SELECT cash FROM users WHERE id = )
     return apology("TODO")
 
 
