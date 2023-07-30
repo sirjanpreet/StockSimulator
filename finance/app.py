@@ -66,7 +66,7 @@ def buy():
 
     db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER UNIQUE, user_id INTEGER, stock_symbol TEXT, purchase_price INTEGER, sell_price INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
 
-    
+
     return apology("TODO")
 
 
@@ -163,7 +163,7 @@ def register():
         return apology("Sorry, invalid username or passwords do not match")
 
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
-
+    return render_template("/login")
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
