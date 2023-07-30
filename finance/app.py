@@ -49,7 +49,8 @@ def buy():
     shares = request.form.get("shares")
     try:
         shares = int(shares)
-    
+    except ValueError:
+        
     return apology("TODO")
 
 
