@@ -110,11 +110,11 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    name = request.form.get("name")
+    username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
-    if name and password and confirmation and confirmation == password:
-        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", name, generate_password_hash(password))
+    if username and password and confirmation and confirmation == password:
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
     return apology("TODO")
 
 
