@@ -110,6 +110,7 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
+    """
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
@@ -124,6 +125,7 @@ def register():
 
     if username and password and confirmation and confirmation == password and not has_repeat:
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+        """
     return render_template("apology.html")
 
 @app.route("/sell", methods=["GET", "POST"])
