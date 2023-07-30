@@ -136,7 +136,7 @@ def register():
                 has_repeat = True
 
     if not(username and password and confirmation and confirmation == password and not has_repeat):
-        return render_template("apology.html")
+        return apology("Sorry, invalid username or passwords do not match")
 
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
 
