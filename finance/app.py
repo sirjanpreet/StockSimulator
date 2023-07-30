@@ -152,19 +152,22 @@ def register():
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
-    has_repeat = False
-    usernames = db.execute("SELECT username FROM users")
 
     #checks for repeated usernames
+
+    if not username or not password or not confirmation:
+        return apology("One of the fields is empty")
+
+    if confirmation != password:
+        return apology("passwords do not match")
+    has_repeat = False
+    usernames = db.execute("SELECT username FROM users")
     for dict in usernames:
         for key in dict:
             if dict[key] == username:
                 has_repeat = True
-    if not username or not password or not confirmation:
-        return apology("One of the fields is empty")
-
-    if confirmation != password or not has_repeat):
-        return apology("Sorry, invalid username or passwords do not match")
+    if has_repeat:
+        return apology("Username already exists, try another username")
 
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
     return render_template("login.html")
