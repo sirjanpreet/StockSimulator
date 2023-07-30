@@ -63,7 +63,10 @@ def buy():
     price_total = lookup(symbol)["price"] * shares
     if dict["cash"] < price_total:
         return apology("Not enough funds to buy stock")
+    command = "
     
+    "
+    db.execute("")
 
     return apology("TODO")
 
