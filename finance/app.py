@@ -163,7 +163,7 @@ def register():
         return apology("Sorry, invalid username or passwords do not match")
 
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
-    return render_template("/login")
+    return render_template("login.html")
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
