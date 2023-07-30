@@ -64,7 +64,7 @@ def buy():
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
 
-    db.execute("CREATE TABLE [IF NOT EXISTS] purchases (user_id INTEGER, stock_symbol TEXT, FOREIGN KEY(user_id) REFERENCES users(id);")
+    db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER, user_id INTEGER, stock_symbol TEXT, FOREIGN KEY(user_id) REFERENCES users(id);")
 
     return apology("TODO")
 
