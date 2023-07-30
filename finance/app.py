@@ -58,16 +58,16 @@ def buy():
     if shares < 1:
         return apology("Invalid number of shares")
 
-    dict = db.execute("SELECT cash FROM users")
-    print(dict)
-    """
+    cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+
     price_total = lookup(symbol)["price"] * shares
-    if dict["cash"] < price_total:
+    if cash_available < price_total:
         return apology("Not enough funds to buy stock")
+
     command = "CREATE TABLE [IF NOT EXISTS] purchases (user_id INTEGER, stock TEXT, FOREIGN KEY(user_id) REFERENCES users(id);"
 
     db.execute("")
-"""
+
     return apology("TODO")
 
 
