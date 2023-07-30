@@ -46,6 +46,8 @@ def buy():
     if request.method == "GET":
         return render_template("buy.html")
 
+    db.execute("CREATE TABLE [IF NOT EXISTS] transactions (id INTEGER UNIQUE, user_id INTEGER, bought_or_sold TEXT, stock_symbol TEXT, price_per_share INTEGER, shares INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
+
     symbol = request.form.get("symbol")
     if lookup(symbol) == None:
         return apology("Invalid stock name")
@@ -64,10 +66,10 @@ def buy():
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
 
-    db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER UNIQUE, user_id INTEGER, stock_symbol TEXT, purchase_price INTEGER, sell_price INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
-    
+    db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares), VALUES(?, ?, ?, ?, ?)", session["user_id"], symbol, "bought", purchase_price, shares)
 
-    return apology("TODO")
+
+    return redirect("/history")
 
 
 @app.route("/history")
