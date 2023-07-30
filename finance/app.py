@@ -59,7 +59,7 @@ def buy():
         return apology("Invalid number of shares")
 
     dict = db.execute("SELECT cash FROM users")
-    print(dict["cash"])
+    print(dict)
     """
     price_total = lookup(symbol)["price"] * shares
     if dict["cash"] < price_total:
