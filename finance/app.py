@@ -57,11 +57,14 @@ def buy():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
+
     dict = db.execute("SELECT cash FROM users")
+
     price_total = lookup(symbol)["price"] * shares
-    if dict["cash"] < price_total
+    if dict["cash"] < price_total:
         return apology("Not enough funds to buy stock")
     
+
     return apology("TODO")
 
 
@@ -154,7 +157,7 @@ def register():
             if dict[key] == username:
                 has_repeat = True
 
-    if not(username and password and confirmation and confirmation == password and not has_repeat):
+    if not(username or password or confirmation or confirmation == password or not has_repeat):
         return apology("Sorry, invalid username or passwords do not match")
 
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
