@@ -124,8 +124,7 @@ def register():
 
     if username and password and confirmation and confirmation == password and not has_repeat:
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
-    return apology("")
-
+    return render_template("apology.html")
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
