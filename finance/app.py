@@ -63,7 +63,7 @@ def buy():
     price_total = lookup(symbol)["price"] * shares
     if dict["cash"] < price_total:
         return apology("Not enough funds to buy stock")
-    command = "CREATE TABLE [IF NOT EXISTS] purchases (user_id INTEGER, , FOREIGN KEY(user_id) REFERENCES users(id);"
+    command = "CREATE TABLE [IF NOT EXISTS] purchases (user_id INTEGER, stock TEXT, FOREIGN KEY(user_id) REFERENCES users(id);"
 
     db.execute("")
 
