@@ -45,8 +45,11 @@ def buy():
     """Buy shares of stock"""
     symbol = request.form.get("symbol")
     if lookup(symbol) == None:
-        
+        return apology("Invalid stock name")
     shares = request.form.get("shares")
+    try:
+        shares = int(shares)
+    
     return apology("TODO")
 
 
