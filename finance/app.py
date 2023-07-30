@@ -108,8 +108,8 @@ def quote():
         return render_template("quote.html")
     elif request.method == "POST":
         ...
+        
         return render_template("quoted.html")
-    return apology("TODO")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -132,10 +132,8 @@ def register():
 
     if not(username and password and confirmation and confirmation == password and not has_repeat):
         return render_template("apology.html")
-    
-    db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
 
-    return render_template("apology.html")
+    db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
