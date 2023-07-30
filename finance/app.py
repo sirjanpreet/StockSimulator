@@ -65,7 +65,7 @@ def buy():
         return apology("Not enough funds to buy stock")
 
     db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER UNIQUE, user_id INTEGER, stock_symbol TEXT, purchase_price INTEGER, sell_price INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
-
+    
 
     return apology("TODO")
 
