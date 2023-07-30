@@ -51,7 +51,9 @@ def buy():
         shares = int(shares)
     except ValueError:
         return apology("Invalid number of shares")
-    if shares 
+    if shares < 1:
+        return apology("Invalid number of shares")
+    
     return apology("TODO")
 
 
