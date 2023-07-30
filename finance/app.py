@@ -57,8 +57,11 @@ def buy():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
-
-    db.execute("SELECT cash FROM users WHERE id = )
+    dict = db.execute("SELECT cash FROM users")
+    price_total = lookup(symbol)["price"] * shares
+    if dict["cash"] < price_total
+        return apology("Not enough funds to buy stock")
+    
     return apology("TODO")
 
 
