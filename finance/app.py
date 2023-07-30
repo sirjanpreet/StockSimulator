@@ -112,7 +112,7 @@ def quote():
             return render_template("quote.html")
         symbol = lookup(symbol)["symbol"]
         price = lookup(symbol)["price"]
-        return render_template("quoted.html")
+        return render_template("quoted.html", symbol=symbol, price=price)
 
 
 @app.route("/register", methods=["GET", "POST"])
