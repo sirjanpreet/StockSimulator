@@ -113,7 +113,7 @@ def quote():
         dict = lookup(symbol)
         symbol = dict["symbol"]
         price = dict["price"]
-        price usd(price)
+        price = usd(price)
         return render_template("quoted.html", symbol=symbol, price=price)
 
 
