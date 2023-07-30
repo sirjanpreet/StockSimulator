@@ -160,7 +160,7 @@ def register():
         for key in dict:
             if dict[key] == username:
                 has_repeat = True
-
+    if not username:
     if not(username or password or confirmation or confirmation == password or not has_repeat):
         return apology("Sorry, invalid username or passwords do not match")
 
