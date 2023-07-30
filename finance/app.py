@@ -58,14 +58,15 @@ def buy():
     if shares < 1:
         return apology("Invalid number of shares")
 
-    cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
-
-    price_total = lookup(symbol)["price"] * shares
+    cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
+    purchase_price = lookup(symbol)["price"]
+    price_total = purchase_price * shares
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
 
-    db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER, user_id INTEGER, stock_symbol TEXT, FOREIGN KEY(user_id) REFERENCES users(id);")
+    db.execute("CREATE TABLE [IF NOT EXISTS] purchases (id INTEGER UNIQUE, user_id INTEGER, stock_symbol TEXT, purchase_price INTEGER, sell_price INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
 
+    
     return apology("TODO")
 
 
