@@ -43,9 +43,13 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
+    if request.method == "GET":
+        return render_template("buy.html")
+
     symbol = request.form.get("symbol")
     if lookup(symbol) == None:
         return apology("Invalid stock name")
+
     shares = request.form.get("shares")
     try:
         shares = int(shares)
