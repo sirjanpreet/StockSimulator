@@ -114,7 +114,7 @@ def register():
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
     if name and password and confirmation and confirmation == password:
-        db.execute("INSERT INTO users )
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", name, generate_password_hash(password))
     return apology("TODO")
 
 
