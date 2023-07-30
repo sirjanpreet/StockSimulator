@@ -108,6 +108,7 @@ def quote():
         return render_template("quote.html")
     elif request.method == "POST":
         ...
+        symbol = request.form.get("symbol")
         
         return render_template("quoted.html")
 
