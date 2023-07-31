@@ -40,9 +40,8 @@ def index():
     stocks = db.execute("SELECT * FROM stocks WHERE id = ?", session["user_id"])
 
     cash = users[0]["cash"]
-    shares = 0
-    for dict in stocks:
-        
+    
+
     return apology("TODO")
 
 
