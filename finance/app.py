@@ -66,7 +66,7 @@ def buy():
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
     else:
-        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares), VALUES(?, ?, ?, ?, ?)", session["user_id"], symbol, "bought", purchase_price, shares)
+        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], symbol, "bought", purchase_price, shares)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
         return redirect("/history")
 
