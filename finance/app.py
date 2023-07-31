@@ -70,7 +70,6 @@ def buy():
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
         return redirect("/history")
 
-
 @app.route("/history")
 @login_required
 def history():
