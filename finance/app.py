@@ -39,7 +39,7 @@ def index():
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
     stocks = db.execute("SELECT * FROM stocks WHERE id = ?", session["user_id"])
 
-    
+
     cash = users[0]["cash"]
 
 
@@ -75,7 +75,13 @@ def buy():
     else:
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
-        db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
+
+        stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ?", symbol)
+        if len(stocks) == 0:
+            db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
+        else:
+            present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)["shares"]
+            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
         return redirect("/history")
 
 @app.route("/history")
