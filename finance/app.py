@@ -36,7 +36,7 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    
+
     return apology("TODO")
 
 
@@ -69,6 +69,7 @@ def buy():
     else:
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
+        db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
         return redirect("/history")
 
 @app.route("/history")
