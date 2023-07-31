@@ -48,7 +48,8 @@ def buy():
 
     #db.execute("CREATE TABLE [IF NOT EXISTS] transactions (id INTEGER UNIQUE, user_id INTEGER, bought_or_sold TEXT, stock_symbol TEXT, price_per_share INTEGER, shares INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
 
-    symbol = upper(request.form.get("symbol"))
+    symbol = request.form.get("symbol")
+    upper("symbol")
     if lookup(symbol) == None:
         return apology("Invalid stock name")
 
