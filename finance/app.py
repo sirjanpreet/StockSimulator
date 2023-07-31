@@ -39,8 +39,9 @@ def index():
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
     stocks = db.execute("SELECT * FROM stocks WHERE id = ?", session["user_id"])
 
-    cash = users[0]["cash"]
     
+    cash = users[0]["cash"]
+
 
     return apology("TODO")
 
