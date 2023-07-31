@@ -67,7 +67,7 @@ def buy():
         return apology("Not enough funds to buy stock")
 
     db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares), VALUES(?, ?, ?, ?, ?)", session["user_id"], symbol, "bought", purchase_price, shares)
-    db.execute("UPDATGE )
+    db.execute("UPDATE users SET cash)
 
     return redirect("/history")
 
