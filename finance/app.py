@@ -41,7 +41,7 @@ def index():
     cash_available = users[0]["cash"]
 
     for stock in stocks:
-        
+
 
 
     return apology("TODO")
@@ -55,11 +55,12 @@ def buy():
         return render_template("buy.html")
 
     #db.execute("CREATE TABLE [IF NOT EXISTS] transactions (id INTEGER UNIQUE, user_id INTEGER, bought_or_sold TEXT, stock_symbol TEXT, price_per_share INTEGER, shares INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
-
+    #check if stock symbol is valid
     symbol = str.upper(request.form.get("symbol"))
     if lookup(symbol) == None:
         return apology("Invalid stock name")
 
+    #check if number of shares are valid
     shares = request.form.get("shares")
     try:
         shares = int(shares)
@@ -68,16 +69,22 @@ def buy():
     if shares < 1:
         return apology("Invalid number of shares")
 
+    #check if user has enough money to buy stock
     cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
     purchase_price = lookup(symbol)["price"]
     price_total = purchase_price * shares
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
+
+    #successfully buy stock
     else:
+        #insert purchase of stock in transactions
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
+        #reduce the amount of cash user has left
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
 
-        stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ?", symbol)
+        #check if user has already has that stock, if so add shares to that stock, else insert a new stock
+        stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
         else:
