@@ -39,12 +39,16 @@ def index():
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
     stocks = db.execute("SELECT stock_symbol, shares FROM stocks WHERE id = ?", session["user_id"])
     cash_available = users[0]["cash"]
-
+    grand_total = cash_available
     for stock in stocks:
-        stock[]
+        current_price = lookup(stock["stock_symbol"])
+        stock["current_price"] = usd(current_price)
+        total_holding = current_price * stock["shares"]
+        stock["total_holding"] = usd(total_holding)
 
+        grand_total += total_holding
 
-    return apology("TODO")
+    return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
 
 
 @app.route("/buy", methods=["GET", "POST"])
