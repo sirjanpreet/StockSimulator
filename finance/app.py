@@ -42,9 +42,9 @@ def index():
     grand_total = cash_available
     for stock in stocks:
         current_price = lookup(stock["stock_symbol"])
-        stock["current_price"] = str(usd(current_price))
+        stock["current_price"] = current_price
         total_holding = current_price * stock["shares"]
-        stock["total_holding"] = str(usd(total_holding))
+        stock["total_holding"] = total_holding
 
         grand_total += total_holding
 
