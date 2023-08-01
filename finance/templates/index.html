@@ -14,10 +14,10 @@
         </thread>
         {% for stock in stocks %}
             <tr>
-                <td>{{stock["stock_symbol"]}}</td>
-                <td>{{stock["shares"]}}</td>
-                <td>{{stock["current_price"]}}</td>
-                <td>{{stock["total_holding"]}}</td>
+                <td>{{ stock["stock_symbol"] }}</td>
+                <td>{{ stock["shares"] }}</td>
+                <td>{{ stock["current_price"] }}</td>
+                <td>{{ stock["total_holding"] }}</td>
             </tr>
         {% endfor %}
     </table>
