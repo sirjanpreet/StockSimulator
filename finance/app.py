@@ -91,6 +91,7 @@ def buy():
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
+            print("tihs")
         else:
             present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)["shares"]
             db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
