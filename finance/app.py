@@ -232,19 +232,13 @@ def sell():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
-    shares_owned = db.execute("SELECT shares FROM stocks WHERE user_id = ? AND stock_symbol = ?", session_id["user_id"], symbol)[0]
+    shares_owned = db.execute("SELECT shares FROM stocks WHERE user_id = ? AND stock_symbol = ?", session["user_id"], symbol)[0]["shares"]
+    if shares_owned < shares:
+        return("You don't own that many shares")
 
-
-    #check if user
-    cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
-    current_price = lookup(symbol)["price"]
-    price_total = purchase_price * shares
-    if cash_available < price_total:
-        return apology("Not enough funds to buy stock")
-
-    #successfully buy stock
+    #successfully sell stock
     else:
-        #insert purchase of stock in transactions
+        #insert sale of stock in transactions
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
         #reduce the amount of cash user has left
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
