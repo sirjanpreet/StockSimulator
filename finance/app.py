@@ -220,9 +220,9 @@ def sell():
     symbol = str.upper(request.form.get("symbol"))
     if lookup(symbol) == None:
         return apology("Invalid stock name")
-    stocks = db.execute("SELECT stock_symbol FROM stocks WHERE user_id = ?", session["user_id"])
-    for stock in stocks:
-        if 
+    stocks = db.execute("SELECT stock_symbol FROM stocks WHERE user_id = ? and stock_symbol = ?", session["user_id"], symbol)
+    if len(stocks) == 0:
+        return apology("You don't own that stock")
 
     #check if number of shares are valid
     shares = request.form.get("shares")
