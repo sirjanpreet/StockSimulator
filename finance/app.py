@@ -38,15 +38,16 @@ def index():
     """Show portfolio of stocks"""
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
     stocks = db.execute("SELECT stock_symbol, shares FROM stocks WHERE user_id = ?", session["user_id"])
-    cash_available = users[0]["cash"]
-    grand_total = cash_available
+    cash_available = usd(users[0]["cash"])
+    total_money = cash_available
     for stock in stocks:
         current_price = lookup(stock["stock_symbol"])["price"] #forgot to write ["price"], lookup return a dictionary
-        stock["current_price"] = current_price
+        stock["current_price"] = usd(current_price)
         total_holding = current_price * stock["shares"]
         stock["total_holding"] = usd(total_holding)
 
-        grand_total += total_holding
+        total_money += total_holding
+        grand_total = usd(total_money)
 
     return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
     #return render_template("index.html", stocks=stocks)
