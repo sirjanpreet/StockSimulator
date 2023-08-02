@@ -216,10 +216,13 @@ def sell():
     if request.method == "GET":
         return render_template("sell.html")
 
-    #check if stock symbol is valid
+    #check if stock symbol is valid and user has that stock
     symbol = str.upper(request.form.get("symbol"))
     if lookup(symbol) == None:
         return apology("Invalid stock name")
+    stocks = db.execute("SELECT stock_symbol FROM stocks WHERE user_id = ?", session["user_id"])
+    for stock in stocks:
+        if 
 
     #check if number of shares are valid
     shares = request.form.get("shares")
@@ -230,9 +233,9 @@ def sell():
     if shares < 1:
         return apology("Invalid number of shares")
 
-    #check if user has enough money to buy stock
+    #check if user s
     cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
-    purchase_price = lookup(symbol)["price"]
+    current_price = lookup(symbol)["price"]
     price_total = purchase_price * shares
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
