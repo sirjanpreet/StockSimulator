@@ -94,7 +94,7 @@ def buy():
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
             print("tihs")
         else:
-            present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)["shares"]
+            present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)[0]["shares"]
             db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
         return redirect("/history")
 
