@@ -232,7 +232,7 @@ def sell():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
-    
+    shares_owned = db.execute("SELECT ")
 
 
     #check if user
