@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    index
+    history
 {% endblock %}
 
 {% block main %}
@@ -16,22 +16,12 @@
         </thread>
         {% for transaction in transactions %}
             <tr>
-                <td>{{ stock["stock_symbol"] }}</td>
-                <td>{{ stock["shares"] }}</td>
-                <td>{{ stock["current_price"] }}</td>
-                <td>{{ stock["total_holding"] }}</td>
+                <td>{{ transaction["stock_symbol"] }}</td>
+                <td>{{ transaction["bought_or_sold"] }}</td>
+                <td>{{ transactions["price_per_share"] }}</td>
+                <td>{{ transactions["shares"] }}</td>
             </tr>
         {% endfor %}
 
-    </table>
-    <table class="table">
-        <thread>
-            <td>Cash Available</td>
-            <td>Grand Total (Cash + Value of Stocks)</td>
-        </thread>
-        <tr>
-            <td>{{ cash_available }}</td>
-            <td>{{ grand_total }}</td>
-        </tr>
     </table>
 {% endblock %}
