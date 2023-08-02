@@ -248,10 +248,10 @@ def sell():
 
         #if all shares of stock are being sold, remove that stock from stock table, else subtract shares
         if shares_owned == shares:
-            ...#delete
+            db.execute("DELETE FROM stocks WHERE ")
         else:
-            db.execute("UPDATE stocks SET shares = ?", shares_owned - shares)
-
+            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", shares_owned - shares, session["user_id"], symbol)
+"""
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
@@ -259,5 +259,6 @@ def sell():
         else:
             present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)[0]["shares"]
             db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
+            """
         return redirect("/history")
     return apology("TODO")
