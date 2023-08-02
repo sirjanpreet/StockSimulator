@@ -214,5 +214,43 @@ def register():
 def sell():
     """Sell shares of stock"""
     if request.method == "GET":
-        render_template("sell.html")
+        return render_template("sell.html")
+
+    #check if stock symbol is valid
+    symbol = str.upper(request.form.get("symbol"))
+    if lookup(symbol) == None:
+        return apology("Invalid stock name")
+
+    #check if number of shares are valid
+    shares = request.form.get("shares")
+    try:
+        shares = int(shares)
+    except ValueError:
+        return apology("Invalid number of shares")
+    if shares < 1:
+        return apology("Invalid number of shares")
+
+    #check if user has enough money to buy stock
+    cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
+    purchase_price = lookup(symbol)["price"]
+    price_total = purchase_price * shares
+    if cash_available < price_total:
+        return apology("Not enough funds to buy stock")
+
+    #successfully buy stock
+    else:
+        #insert purchase of stock in transactions
+        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
+        #reduce the amount of cash user has left
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
+
+        #check if user has already has that stock, if so add shares to that stock, else insert a new stock
+        stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
+        if len(stocks) == 0:
+            db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
+            print("tihs")
+        else:
+            present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)[0]["shares"]
+            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
+        return redirect("/history")
     return apology("TODO")
