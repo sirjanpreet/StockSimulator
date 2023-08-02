@@ -58,7 +58,7 @@ def index():
     #format total cash available and grand total to usd
     cash_available = usd(users[0]["cash"])
     grand_total = usd(total_money)
-    
+
     return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
     #return render_template("index.html", stocks=stocks)
 
@@ -213,4 +213,6 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
+    if request.method == "GET":
+        render_template("sell.html")
     return apology("TODO")
