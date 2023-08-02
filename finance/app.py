@@ -37,6 +37,7 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+    cash_available = usd(users[0]["cash"])
     stocks = db.execute("SELECT stock_symbol, shares FROM stocks WHERE user_id = ?", session["user_id"])
     cash_available = usd(users[0]["cash"])
     total_money = cash_available
@@ -47,8 +48,8 @@ def index():
 
         stock["current_price"] = usd(current_price)
         stock["total_holding"] = usd(total_holding)
-        cash_available = usd(users[0]["cash"])
-        grand_total = usd(total_money)
+
+    grand_total = usd(total_money)
 
     return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
     #return render_template("index.html", stocks=stocks)
