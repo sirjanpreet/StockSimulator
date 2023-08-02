@@ -251,7 +251,6 @@ def sell():
             ...#delete
         else:
             db.execute("UPDATE stocks SET shares = ?", shares_owned - shares)
-            db.execute("UPDATE stocks SET ")
 
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
