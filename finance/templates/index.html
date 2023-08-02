@@ -20,8 +20,12 @@
                 <td>{{ stock["total_holding"] }}</td>
             </tr>
         {% endfor %}
-            <tr>
-                {{ cash_available}}
-            </tr>
+
+    </table>
+    <table class="table">
+        <tr>
+            <td>{{ cash_available }}</td>
+            <td>{{ grand_total }}</td>
+        </tr>
     </table>
 {% endblock %}
