@@ -241,7 +241,7 @@ def sell():
         #insert sale of stock in transactions
         current_price = lookup(symbol)["price"]
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "sold", symbol, current_price, shares)
-        #reduce the amount of cash user has left
+        #increase the amount of cash user has left
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
 
         #check if user has already has that stock, if so add shares to that stock, else insert a new stock
