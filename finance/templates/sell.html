@@ -8,8 +8,9 @@
     <form action="/sell" method="post">
         <div>
             <select name="symbol" placeholder="Symbol" type="text">
+                <option diabled selected>Stocks</option>
                 {% for stock in stocks %}
-                    <option value="{{ stock["symbol"] }}">{{ stock["symbol"] }}</option>
+                    <option value="{{ stock["stock_symbol"] }}">{{ stock["stock_symbol"] }}</option>
                 {% endfor %}
             </select>
         </div>
