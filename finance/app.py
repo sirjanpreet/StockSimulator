@@ -42,11 +42,12 @@ def index():
     total_money = cash_available
     for stock in stocks:
         current_price = lookup(stock["stock_symbol"])["price"] #forgot to write ["price"], lookup return a dictionary
-        stock["current_price"] = usd(current_price)
         total_holding = current_price * stock["shares"]
-        stock["total_holding"] = usd(total_holding)
-
         total_money += total_holding
+
+        stock["current_price"] = usd(current_price)
+        stock["total_holding"] = usd(total_holding)
+        cash_available = usd(users[0]["cash"])
         grand_total = usd(total_money)
 
     return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
