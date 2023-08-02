@@ -41,7 +41,7 @@ def index():
     cash_available = users[0]["cash"]
     grand_total = cash_available
     for stock in stocks:
-        current_price = lookup(stock["stock_symbol"])
+        current_price = lookup(stock["stock_symbol"])["price"]
         stock["current_price"] = current_price
         total_holding = current_price * stock["shares"]
         stock["total_holding"] = total_holding
