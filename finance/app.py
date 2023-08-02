@@ -243,7 +243,7 @@ def sell():
         current_price = lookup(symbol)["price"]
         db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "sold", symbol, current_price, shares)
         #increase the amount of cash user has left
-        cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+        cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         price_total = shares * current_price
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available + price_total, session["user_id"])
 
