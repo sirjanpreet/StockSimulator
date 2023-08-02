@@ -214,7 +214,8 @@ def register():
 def sell():
     """Sell shares of stock"""
     if request.method == "GET":
-        return render_template("sell.html")
+        stocks = db.execute("SELECT stock_symbol FROM stocks WHERE ")
+        return render_template("sell.html", ...)
 
     #check if stock symbol is valid and user has that stock
     symbol = str.upper(request.form.get("symbol"))
