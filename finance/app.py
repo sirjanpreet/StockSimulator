@@ -44,7 +44,7 @@ def index():
         current_price = lookup(stock["stock_symbol"])["price"] #forgot to write ["price"], lookup return a dictionary
         stock["current_price"] = current_price
         total_holding = current_price * stock["shares"]
-        stock["total_holding"] = total_holding
+        stock["total_holding"] = usd(total_holding)
 
         grand_total += total_holding
 
