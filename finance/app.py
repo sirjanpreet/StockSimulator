@@ -248,7 +248,7 @@ def sell():
 
         #if all shares of stock are being sold, remove that stock from stock table, else subtract shares
         if shares_owned == shares:
-            db.execute("DELETE FROM stocks WHERE ")
+            db.execute("DELETE FROM stocks WHERE user_id = ? AND stock_symbol = ?", session["user_id"], symbol)
         else:
             db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", shares_owned - shares, session["user_id"], symbol)
         """
