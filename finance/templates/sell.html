@@ -8,7 +8,9 @@
     <form action="/sell" method="post">
         <div class="mb-3">
             <select class="form-control mx-auto w-auto" name="symbol" placeholder="Symbol" type="text">
-                
+                {% for stock in stocks %}
+                    <option value="{{  }}"
+                {% endfor %}
             </select>
 
         </div>
