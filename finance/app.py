@@ -246,7 +246,12 @@ def sell():
         price_total = shares * current_price
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available + price_total, session["user_id"])
 
-        #check if user has already has that stock, if so add shares to that stock, else insert a new stock
+        #if all shares of stock are being sold, remove that stock from stock table, else subtract shares
+        if shares_owned == shares:
+            ...#delete
+        else:
+            db.execute("UPDATE stocks SET shares ")
+
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
