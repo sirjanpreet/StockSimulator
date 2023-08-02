@@ -215,7 +215,7 @@ def sell():
     """Sell shares of stock"""
     if request.method == "GET":
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE user_id = ?", session["user_id"])
-        return render_template("sell.html", ...)
+        return render_template("sell.html", stocks=stocks)
 
     #check if stock symbol is valid and user has that stock
     symbol = str.upper(request.form.get("symbol"))
