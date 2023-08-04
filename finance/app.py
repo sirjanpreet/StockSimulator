@@ -174,7 +174,7 @@ def quote():
     elif request.method == "POST":
         symbol = request.form.get("symbol")
         if lookup(symbol) == None:
-            return render_template("quote.html")
+            return apology("Invalid stock symbol")
         dict = lookup(symbol)
         symbol = dict["symbol"]
         price = dict["price"]
