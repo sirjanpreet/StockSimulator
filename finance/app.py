@@ -208,6 +208,7 @@ def register():
     if has_repeat:
         return apology("Username already exists, try another username")
 
+    #inserts username to users and the hash of the password
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
     return render_template("login.html")
 
