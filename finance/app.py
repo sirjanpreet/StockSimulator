@@ -237,7 +237,7 @@ def sell():
         return apology("Invalid number of shares")
     shares_owned = db.execute("SELECT shares FROM stocks WHERE user_id = ? AND stock_symbol = ?", session["user_id"], symbol)[0]["shares"]
     if shares_owned < shares:
-        return("You don't own that many shares")
+        return apology("You don't own that many shares")
 
     #successfully sell stock
     else:
