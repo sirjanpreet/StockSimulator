@@ -240,25 +240,28 @@ def sell():
         return apology("Invalid number of shares")
     if shares < 1:
         return apology("Invalid number of shares")
-    shares_owned = db.execute("SELECT shares FROM stocks WHERE user_id = ? AND stock_symbol = ?", session["user_id"], symbol)[0]["shares"]
+    shares_owned = db.execute("SELECT shares FROM stocks WHERE user_id = ? AND stock_symbol = ?",
+                              session["user_id"], symbol)[0]["shares"]
     if shares_owned < shares:
         return apology("You don't own that many shares")
 
-    #successfully sell stock
+    # successfully sell stock
     else:
-        #insert sale of stock in transactions
+        # insert sale of stock in transactions
         current_price = lookup(symbol)["price"]
-        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "sold", symbol, current_price, shares)
-        #increase the amount of cash user has left
+        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)",
+                   session["user_id"], "sold", symbol, current_price, shares)
+        # increase the amount of cash user has left
         cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
         price_total = shares * current_price
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available + price_total, session["user_id"])
 
-        #if all shares of stock are being sold, remove that stock from stock table, else subtract shares
+        # if all shares of stock are being sold, remove that stock from stock table, else subtract shares
         if shares_owned == shares:
             db.execute("DELETE FROM stocks WHERE user_id = ? AND stock_symbol = ?", session["user_id"], symbol)
         else:
-            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", shares_owned - shares, session["user_id"], symbol)
+            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?",
+                       shares_owned - shares, session["user_id"], symbol)
         """
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
