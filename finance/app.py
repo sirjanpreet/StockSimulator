@@ -36,31 +36,31 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    #get the amount of cash that user has
+    # get the amount of cash that user has
     users = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
     cash = users[0]["cash"]
 
-    #get all the stocks that the user holds
+    # get all the stocks that the user holds
     stocks = db.execute("SELECT stock_symbol, shares FROM stocks WHERE user_id = ?", session["user_id"])
     total_money = cash
 
     for stock in stocks:
-        #get price and total value of stock
-        current_price = lookup(stock["stock_symbol"])["price"] #forgot to write ["price"], lookup return a dictionary
+        # get price and total value of stock
+        current_price = lookup(stock["stock_symbol"])["price"]  # forgot to write ["price"], lookup return a dictionary
         total_holding = current_price * stock["shares"]
-        #add total value to the grand total
+        # add total value to the grand total
         total_money += total_holding
 
-        #format current price and total value to usd
+        # format current price and total value to usd
         stock["current_price"] = usd(current_price)
         stock["total_holding"] = usd(total_holding)
 
-    #format total cash available and grand total to usd
+    # format total cash available and grand total to usd
     cash_available = usd(users[0]["cash"])
     grand_total = usd(total_money)
 
     return render_template("index.html", stocks=stocks, cash_available=cash_available, grand_total=grand_total)
-    #return render_template("index.html", stocks=stocks)
+    # return render_template("index.html", stocks=stocks)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -70,13 +70,13 @@ def buy():
     if request.method == "GET":
         return render_template("buy.html")
 
-    #db.execute("CREATE TABLE [IF NOT EXISTS] transactions (id INTEGER UNIQUE, user_id INTEGER, bought_or_sold TEXT, stock_symbol TEXT, price_per_share INTEGER, shares INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
-    #check if stock symbol is valid
+    # db.execute("CREATE TABLE [IF NOT EXISTS] transactions (id INTEGER UNIQUE, user_id INTEGER, bought_or_sold TEXT, stock_symbol TEXT, price_per_share INTEGER, shares INTEGER, FOREIGN KEY(user_id) REFERENCES users(id);")
+    # check if stock symbol is valid
     symbol = str.upper(request.form.get("symbol"))
     if lookup(symbol) == None:
         return apology("Invalid stock name")
 
-    #check if number of shares are valid
+    # check if number of shares are valid
     shares = request.form.get("shares")
     try:
         shares = int(shares)
@@ -85,29 +85,32 @@ def buy():
     if shares < 1:
         return apology("Invalid number of shares")
 
-    #check if user has enough money to buy stock
+    # check if user has enough money to buy stock
     cash_available = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
     purchase_price = lookup(symbol)["price"]
     price_total = purchase_price * shares
     if cash_available < price_total:
         return apology("Not enough funds to buy stock")
 
-    #successfully buy stock
+    # successfully buy stock
     else:
-        #insert purchase of stock in transactions
-        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)", session["user_id"], "bought", symbol, purchase_price, shares)
-        #reduce the amount of cash user has left
+        # insert purchase of stock in transactions
+        db.execute("INSERT INTO transactions (user_id, bought_or_sold, stock_symbol, price_per_share, shares) VALUES(?, ?, ?, ?, ?)",
+                   session["user_id"], "bought", symbol, purchase_price, shares)
+        # reduce the amount of cash user has left
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_available - price_total, session["user_id"])
 
-        #check if user has already has that stock, if so add shares to that stock, else insert a new stock
+        # check if user has already has that stock, if so add shares to that stock, else insert a new stock
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE stock_symbol = ? AND user_id = ?", symbol, session["user_id"])
         if len(stocks) == 0:
             db.execute("INSERT INTO stocks (user_id, stock_symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
             print("tihs")
         else:
             present_shares = db.execute("SELECT shares FROM stocks WHERE stock_symbol = ?", symbol)[0]["shares"]
-            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?", present_shares + shares, session["user_id"], symbol)
+            db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?",
+                       present_shares + shares, session["user_id"], symbol)
         return redirect("/")
+    
 
 @app.route("/history")
 @login_required
