@@ -110,7 +110,7 @@ def buy():
             db.execute("UPDATE stocks SET shares = ? WHERE user_id = ? AND stock_symbol = ?",
                        present_shares + shares, session["user_id"], symbol)
         return redirect("/")
-    
+
 
 @app.route("/history")
 @login_required
@@ -195,7 +195,7 @@ def register():
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
 
-    #checks for repeated usernames
+    # checks for repeated usernames
 
     if not username or not password or not confirmation:
         return apology("One of the fields is empty")
@@ -211,9 +211,10 @@ def register():
     if has_repeat:
         return apology("Username already exists, try another username")
 
-    #inserts username to users and the hash of the password
+    # inserts username to users and the hash of the password
     db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
     return render_template("login.html")
+
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
@@ -223,7 +224,7 @@ def sell():
         stocks = db.execute("SELECT stock_symbol FROM stocks WHERE user_id = ?", session["user_id"])
         return render_template("sell.html", stocks=stocks)
 
-    #check if stock symbol is valid and user has that stock
+    # check if stock symbol is valid and user has that stock
     symbol = str.upper(request.form.get("symbol"))
     if lookup(symbol) == None:
         return apology("Invalid stock name")
@@ -231,7 +232,7 @@ def sell():
     if len(symbols_owned) == 0:
         return apology("You don't own that stock")
 
-    #check if number of shares are valid and if user owns that many shares
+    # check if number of shares are valid and if user owns that many shares
     shares = request.form.get("shares")
     try:
         shares = int(shares)
