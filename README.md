@@ -32,6 +32,7 @@ Images
 ![Login](images/LoginPage.png)
 ![Portfolio](images/Portfolio.png)
 ![Quote](images/Quote.png)
+![Price](images/StockPrice.png)
 ![Buy](images/Buy.png)
 ![Sell](images/Sell.png)
 ![History](images/History.png)
