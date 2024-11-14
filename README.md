@@ -35,4 +35,4 @@ Images
 ![Buy](images/Buy.png)
 ![Sell](images/Sell.png)
 ![History](images/History.png)
-![Portfolio2](images/portfolio2.png)
+![Portfolio2](images/Portfolio2.png)
